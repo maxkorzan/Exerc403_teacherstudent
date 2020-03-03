@@ -23,7 +23,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/").access("hasAnyAuthority('STUDENT','TEACHER')")
-                .antMatchers("/sudent").access("hasAuthority('STUDENT')")
+                .antMatchers("/student").access("hasAuthority('STUDENT')")
                 .antMatchers("/teacher").access("hasAuthority('TEACHER')")
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").permitAll()
@@ -35,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser("student").password(passwordEncoder().encode("password")).authorities("STUDENT")
-                .and().withUser("teacher").password(passwordEncoder().encode("password")).authorities("TEACHER");
+                .and().withUser("teacher").password(passwordEncoder().encode("password")).authorities("TEACHER")
+                .and().withUser("teacherAid").password(passwordEncoder().encode("password")).authorities("TEACHER", "STUDENT");
     }
 }
